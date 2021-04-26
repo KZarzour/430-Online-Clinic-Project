@@ -10,7 +10,7 @@ from sqlalchemy import not_
 
 app = Flask(__name__)
 #change based on your machine
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SimonSimon@localhost:3306/clinic'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:scout is on saturday@localhost:3306/medical'
 CORS(app)
 db = SQLAlchemy(app)
 
@@ -292,10 +292,16 @@ def updateChanges():
 
 
 #return reports objects as an array of queries
-@app.route('/showReport', methods=["GET"])
+@app.route('/showReport', methods=["POST"])
 def showReport():
     try:
-        changed = changedApp.query.all()
+        if request.json["days"]=="":
+            days=10000
+        else:
+            days=int(request.json["days"])
+        START_DATE = datetime.datetime.now() - datetime.timedelta(days=days)
+        END_DATE = datetime.datetime.now()
+        changed=changedApp.query.filter(not_(changedApp.creationDate.between(START_DATE, END_DATE)))
         return jsonify([e.serialize() for e in changed])
     except Exception as e:
         return (str(e))

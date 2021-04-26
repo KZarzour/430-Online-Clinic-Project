@@ -13,8 +13,17 @@
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 3.12.1, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
-    
-    
+    <style>
+        #patientReportPopUp {
+        position: relative;
+        width: auto;
+        height: auto;
+        bottom: 350px;
+        left: 300px;
+        z-index: 10;
+      }
+    </style>
+
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
 		"@type": "Organization",
@@ -67,11 +76,28 @@
         <a href="Patients.html" data-page-id="8330488" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-2">EDIT PATIENTS</a>
         <a href="Doctors.html" data-page-id="5107847" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-3">Edit Doctors</a>
         <a href="Register.html" data-page-id="2161343" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-4">Add Doctor</a>
-        <a href="Register.html" data-page-id="2161343" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-5">Generate Report</a>
+        <a href="javascript: PopUp()" data-page-id="2161343" class="u-btn u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-btn-5">Generate Report</a>
       </div>
     </section>
-    
-    
+    <section id="patientReportPopUp" style="display: none">
+        <label for="patientreport">Patient: </label>
+        <select name="patientreport" id="patientReport">
+        </select><br><br>
+        <label for="ndays">Number of Days:</label>
+        <input id="ndays" name="ndays" style="width: 50px">
+        </select><br><br>
+        <button id="patientReportButton" class="button" type="button">
+            Get Patient Report </button>
+        <button class="button" type="button" onclick="javascript: HidePopUp()">
+            Hide </button>
+      </form>
+      <div style="bottom: 160px; left: 400px" id="listOfActivities">
+        <p> List of Activities: </p>
+      </div>
+  </section>
+   <script src="AP.js">
+       
+  </script>
     
   </body>
 </html>
