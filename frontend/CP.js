@@ -27,6 +27,18 @@ var checkDay = document.getElementById("day");
 var checkYear = document.getElementById("year");
 var checkMonth = document.getElementById("month");
 
+var appointmentDropdown = document.getElementById("appointment");
+var newYear = document.getElementById("newYear");
+var newMonth = document.getElementById("newMonth");
+var newDay = document.getElementById("newDay");
+var newHour = document.getElementById("newHour");
+var updateAppointmentButton = document.getElementById("updateAppointmentButton");
+var deleteAppointmentButton = document.getElementById("deleteAppointmentButton");
+updateAppointmentButton.addEventListener("click", updateAppointment);
+deleteAppointmentButton.addEventListener("click", deleteAppointment);
+
+var availableAppointment = document.getElementById("availableAppointment");
+
 function doctorAvailability() {
   var date = checkYear.value + "-" + checkMonth.value + "-" + checkDay.value;
   data = {
@@ -43,17 +55,86 @@ function doctorAvailability() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      output=""
+      console.log(data[0]);
+      var list = document.createElement('ul');
       for (var i = 0; i < data.length; i++) {
-        output=output+data[i]+"\n"
-      }
-      output="List of Available Appointments:\n"+output
-      console.log(output)
+        // Create the list item:
+        var item = document.createElement('li');
 
-      availableAppointments.innerHTML=output
+        // Set its contents:
+        item.appendChild(document.createTextNode(data[i]));
+
+        // Add it to the list:
+        list.appendChild(item);
+      }
+      document.getElementById('appointmentsAv').appendChild(list);
     });
 }
+
+getAppoint();
+
+function deleteAppointment() {
+  var id = appointmentDropdown.value
+  fetch(`${SERVER_URL}/appointments/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+function updateAppointment() {
+  console.log("Update an Appointment");
+
+  var date1 = newYear.value + "-" + newMonth.value + "-" + newDay.value + " " + newHour.value;
+  console.log(date1)
+  data = {
+    id: appointmentDropdown.value,
+    startDate: date1
+  };
+
+  console.log(data);
+  fetch(`${SERVER_URL}/updateAppointment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+
+
+function getAppoint() {
+  data = {
+    id: JSON.parse(localStorage.getItem("userId")),
+  }
+
+  fetch(`${SERVER_URL}/showPatientAppointment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      for (var i = 0; i < data.length; i++) {
+        var option = document.createElement("OPTION");
+
+        //Set Customer Name in Text part.
+        option.innerHTML = data[i].startDate;
+
+        //Set CustomerId in Value part.
+        option.value = data[i].id;
+
+        //Add the Option element to DropDownList.
+        appointmentDropdown.options.add(option);
+      }
+    });
+}
+
+
 
 function getDoctors() {
   fetch(`${SERVER_URL}/allDoctors`, {

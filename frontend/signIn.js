@@ -60,7 +60,7 @@ function verifyDoctor() {
         localStorage.setItem("name", JSON.stringify(data[1]));
         localStorage.setItem("username", JSON.stringify(patientUsername.value));
         window.location.replace(
-          "file:///C:/Users/karim/Desktop/version%204/430%20proj/frontend%20testing/Doctor-Portal.html"
+          "./Doctor-Portal.html"
         );
       }
     });

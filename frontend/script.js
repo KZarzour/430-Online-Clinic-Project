@@ -23,7 +23,7 @@ function verifyAdmin() {
     .then((data) => {
       if (data === true) {
         window.location.replace(
-          "file:///C:/Users/karim/Desktop/version%204/430%20proj/frontend%20testing/Admin-Portal.html"
+          "./Admin-Portal.html"
         );
       }
     });
