@@ -312,13 +312,13 @@ def updateAppointment():
     id = request.json['id']
     start = request.json['startDate']
     match1 = appointments.query.filter_by(id=id).first()
-    #match2 = changedApp.query.filter_by(id=id).first()
+    match2 = changedApp.query.filter_by(id=id).first()
     if match1:
         query = appointments.query.filter_by(startDate=start).first()
         if(query):
             abort(400)
         match1.startDate = start
-        #match2.startDate = start
+        match2.startDate = start
         db.session.commit()
         output = "UPDATED!"
         return jsonify(output)
