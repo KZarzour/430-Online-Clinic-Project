@@ -1,0 +1,25 @@
+We need:
+
+- Install MySQL
+- Create virtual environment: py -3 -m venv venv
+- Activate Environment: venv\Scripts\activate
+- Install flask: pip install Flask
+- Install Flask-SQLAlchemy and PyMySQL:  
+pip install Flask-SQLAlchemy 
+pip install PyMySQL
+
+- Configure backend with mysql database in app.py:
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://<mysql_username>:<mysql_password>@<mysql_host>:<mysql_port>/<mysql_db_name>'
+db = SQLAlchemy(app)
+
+- Generate database tables from models, within venv initialize python shell and execute the following commands:
+from app import db
+db.create_all()
+exit()
+
+Backend is good to go, run it:
+FLASK_APP=app.py 
+FLASK_ENV=development 
+flask run
+
+For the Frontend Start at Home.html and navigate the website

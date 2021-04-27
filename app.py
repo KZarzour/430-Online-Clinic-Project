@@ -103,8 +103,8 @@ class appointments(db.Model):
 #table definition for changed appointments to be used later for reports
 class changedApp(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    fk_doctorID = db.Column(db.Integer, db.ForeignKey('doctors.id'))
-    fk_patientID = db.Column(db.Integer, db.ForeignKey('patients.id'))
+    fk_doctorID = db.Column(db.Integer)
+    fk_patientID = db.Column(db.Integer)
     paymentID = db.Column(db.Integer)
     startDate = db.Column(db.DateTime)
     creationDate = db.Column(db.DateTime)
@@ -301,7 +301,7 @@ def showReport():
             days=int(request.json["days"])
         START_DATE = datetime.datetime.now() - datetime.timedelta(days=days)
         END_DATE = datetime.datetime.now()
-        changed=changedApp.query.filter(not_(changedApp.creationDate.between(START_DATE, END_DATE)))
+        changed=changedApp.query.filter((changedApp.creationDate.between(START_DATE, END_DATE)))
         return jsonify([e.serialize() for e in changed])
     except Exception as e:
         return (str(e))
@@ -329,7 +329,7 @@ def updateAppointment():
 @app.route('/showPatientAppointment', methods=['POST'])
 def showPatientAppointment():
     id = request.json['id']
-    match = appointments.query.filter_by(fk_patientID=id).all()
+    match = appointments.query.filter_by(fk_patientID=id).order_by(appointments.startDate).all()
     if match:
         return jsonify([e.serialize() for e in match])
     else:
@@ -339,7 +339,7 @@ def showPatientAppointment():
 @app.route('/showDoctorAppointment', methods=['POST'])
 def showDoctorAppointment():
     id = request.json['id']
-    match = appointments.query.filter_by(fk_doctorID=id).all()
+    match = appointments.query.filter_by(fk_doctorID=id).order_by(appointments.startDate).all()
     if match:
         return jsonify([e.serialize() for e in match])
     else:

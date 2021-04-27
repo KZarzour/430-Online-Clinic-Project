@@ -26,7 +26,7 @@ function verifyPatient() {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data != true) {
+      if (data != false) {
         console.log(data);
         localStorage.setItem("userId", JSON.stringify(data[0]));
         localStorage.setItem("name", JSON.stringify(data[1]));
@@ -54,7 +54,7 @@ function verifyDoctor() {
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data != true) {
+      if (data != false) {
         console.log(data);
         localStorage.setItem("userId", JSON.stringify(data[0]));
         localStorage.setItem("name", JSON.stringify(data[1]));
